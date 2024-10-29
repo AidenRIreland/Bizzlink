@@ -5,7 +5,7 @@
 By:
 | [Aiden Ireland](https://github.com/AidenIreland) | [Donna Marie Brar](https://github.com/dmvbnoob) | [John Raineir Po-on](https://github.com/johnraineir) | [Priya Shruthi Korra](https://github.com/priyakorr) | [Voltaire A. Rono](https://github.com/voltaire36) |
 | --- | --- | --- | --- | --- |
-| ![Aiden](https://avatars.githubusercontent.com/u/AidenIreland?s=150&v=4) | ![Donna](https://avatars.githubusercontent.com/u/Brawdon?s=150&v=4) | ![John](https://avatars.githubusercontent.com/u/dayhaysoos?s=150&v=4) | ![Priya](https://avatars.githubusercontent.com/u/ifiokjr?s=150&v=4) | ![Voltaire](https://avatars.githubusercontent.com/u/kjaymiller?s=150&v=4) |
+| ![Aiden](https://avatars.githubusercontent.com/u/AidenRIreland?s=150&v=4) | ![Donna](https://avatars.githubusercontent.com/u/dmvbnoob?s=150&v=4) | ![John](https://avatars.githubusercontent.com/u/johnraineir?s=150&v=4) | ![Priya](https://avatars.githubusercontent.com/u/priyakorr?s=150&v=4) | ![Voltaire](https://avatars.githubusercontent.com/u/voltaire36?s=150&v=4) |
 | [301219359](mailto:airelan5@my.centennialcollege.ca) | [301369346](mailto:dbrar25@my.centennialcollege.ca) | [301363442](mailto:jpoon26@my.centennialcollege.ca) | [301223736](mailto:pkorra@my.centennialcollege.ca) | [301276375](mailto:vrono@my.centennialcollege.ca) |
 
 
