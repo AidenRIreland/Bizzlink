@@ -24,12 +24,15 @@ By:
 
 ### Database
 ![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?logo=mongodb&logoColor=white)
+![MongoDB Atlas](https://img.shields.io/badge/-MongoDB%20Atlas-47A248?logo=mongodb&logoColor=white)
 
 ### Others
 ![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white)
 ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visual-studio-code&logoColor=white)
 ![Windows](https://img.shields.io/badge/-Windows-0078D6?logo=windows&logoColor=white)
+![ClickUp](https://img.shields.io/badge/-ClickUp-7B68EE?logo=clickup&logoColor=white)
+![Sourcetree](https://img.shields.io/badge/-Sourcetree-0052CC?logo=sourcetree&logoColor=white)
 
 ---
 
