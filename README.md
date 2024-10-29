@@ -5,7 +5,7 @@
 By:
 | [Aiden Ireland](https://github.com/AidenIreland) | [Donna Marie Brar](https://github.com/dmvbnoob) | [John Raineir Po-on](https://github.com/johnraineir) | [Priya Shruthi Korra](https://github.com/priyakorr) | [Voltaire A. Rono](https://github.com/voltaire36) |
 | --- | --- | --- | --- | --- |
-| ![Aiden](https://avatars.githubusercontent.com/AidenIreland?s=150&v=4) | ![Donna](https://avatars.githubusercontent.com/dmvbnoob?s=150&v=4) | ![John](https://avatars.githubusercontent.com/johnraineir?s=150&v=4) | ![Priya](https://avatars.githubusercontent.com/priyakorr?s=150&v=4) | ![Voltaire](https://avatars.githubusercontent.com/voltaire36?s=150&v=4) |
+| ![Aiden](https://images.weserv.nl/?url=avatars.githubusercontent.com/AidenRIreland?v=4&h=150&w=150&fit=cover&mask=circle&maxage=7d) | ![Donna](https://images.weserv.nl/?url=avatars.githubusercontent.com/dmvbnoob?v=4&h=150&w=150&fit=cover&mask=circle&maxage=7d) | ![John](https://images.weserv.nl/?url=avatars.githubusercontent.com/johnraineir?v=4&h=150&w=150&fit=cover&mask=circle&maxage=7d) | ![Priya](https://images.weserv.nl/?url=avatars.githubusercontent.com/priyakorr?v=4&h=150&w=150&fit=cover&mask=circle&maxage=7d) | ![Voltaire](https://images.weserv.nl/?url=avatars.githubusercontent.com/voltaire36?v=4&h=150&w=150&fit=cover&mask=circle&maxage=7d) |
 | [301219359](mailto:airelan5@my.centennialcollege.ca) | [301369346](mailto:dbrar25@my.centennialcollege.ca) | [301363442](mailto:jpoon26@my.centennialcollege.ca) | [301223736](mailto:pkorra@my.centennialcollege.ca) | [301276375](mailto:vrono@my.centennialcollege.ca) |
 
 
