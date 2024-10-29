@@ -1,6 +1,10 @@
-![Bizzlink Logo](./frontend/dist/bizlink-icon.png)
+<h1 align="center">Bizzlink</h1>
 
-# Bizzlink
+
+<p align="center">
+  <img src="frontend/public/bizlink-icon.png" alt="Bizzlink Logo" width="200" height="200">
+</p>
+
 
 By:
 | [Aiden Ireland](https://github.com/AidenIreland) | [Donna Marie Brar](https://github.com/dmvbnoob) | [John Raineir Po-on](https://github.com/johnraineir) | [Priya Shruthi Korra](https://github.com/priyakorr) | [Voltaire A. Rono](https://github.com/voltaire36) |
