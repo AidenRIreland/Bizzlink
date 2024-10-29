@@ -35,8 +35,8 @@ By:
 
 ## Quick Links
 
-- **[Frontend](#frontend)**
-- **[Backend](#backend)**
+- **[Frontend](frontend/)**
+- **[Backend](backend/)**
 
 ---
 
