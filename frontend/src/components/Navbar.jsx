@@ -21,14 +21,14 @@ const Navbar = () => {
         <nav className="navbar bg-base-100 shadow-md mb-12 lg:mb-16 rounded-lg">
             <div className="flex-1">
                 <Link to="/">
-                    <img src="/bizlink-horizontal.jpeg" alt="BizLink" class="h-14 p-4" />
+                    <img src="/bizlink-horizontal.jpeg" alt="BizLink" className="h-14 p-4" />
                 </Link>
             </div>
             <div className="flex-none hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
                     <li>
                         <button
-                            onClick={() => navigateTo("/")}
+                            onClick={() => navigate("/")}
                             className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/" ? "bg-indigo-100 text-indigo-600" : ""}`}
                         >
                             Messages
@@ -36,8 +36,8 @@ const Navbar = () => {
                     </li>
                     <li>
                         <button
-                            onClick={() => navigateTo("/about")}
-                            className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/about" ? "bg-indigo-100 text-indigo-600" : ""}`}
+                            onClick={() => navigate("/myaccount")}
+                            className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/myaccount" ? "bg-indigo-100 text-indigo-600" : ""}`}
                         >
                             My Account
                         </button>
@@ -71,7 +71,7 @@ const Navbar = () => {
                     <ul className="menu menu-vertical">
                         <li>
                             <button
-                                onClick={() => navigateTo("/")}
+                                onClick={() => { navigate("/"); setMenuOpen(false); }}
                                 className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/" ? "bg-indigo-100 text-indigo-600" : ""}`}
                             >
                                 Messages
@@ -79,8 +79,8 @@ const Navbar = () => {
                         </li>
                         <li>
                             <button
-                                onClick={() => navigateTo("/about")}
-                                className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/about" ? "bg-indigo-100 text-indigo-600" : ""}`}
+                                onClick={() => { navigate("/myaccount"); setMenuOpen(false); }}
+                                className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/myaccount" ? "bg-indigo-100 text-indigo-600" : ""}`}
                             >
                                 My Account
                             </button>
