@@ -90,10 +90,11 @@ npm run build
 
 5. **Start Frontend**
     Open Terminal, 
-    change the directory to the backend folder then run "npm start"
+    change the directory to the frontend folder then run "npm start" or "npm run dev"
 
 ```shell
 npm start
+npm run dev
 ```
 
 
@@ -102,5 +103,3 @@ npm start
     Sign up 2 different accounts, and talk to yourself. 
 
 http://localhost:3000/
-
-test
