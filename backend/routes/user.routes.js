@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get("/", protectRoute, getUsersForSidebar);
 router.put("/update", protectRoute, updateUser);
+router.get("/:id", getUserById);
 
 export default router;

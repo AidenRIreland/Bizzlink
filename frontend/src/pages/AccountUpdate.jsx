@@ -43,8 +43,8 @@ const AccountUpdate = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="card lg:card-side bg-base-100 shadow-xl w-full max-w-xl">
-        <figure className="lg:w-5/12 h-min p-8">
+      <div className="card lg:card-side bg-base-100 shadow-xl w-full max-w-3xl">
+        <figure className="lg:w-4/12 h-min p-8">
           <img
             src={authUser.profilePic || "https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"}
             alt="User Profile"
