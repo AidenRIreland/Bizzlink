@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
 const AccountDashboard = () => {
     const { authUser } = useAuthContext();
+    const navigate = useNavigate();
 
     return (
         <div className="flex justify-center">
@@ -16,12 +18,24 @@ const AccountDashboard = () => {
             </figure>
             <div className="card-body gap-4">
                 <h2 className="card-title">{authUser.fullName || "Full Name"}</h2>
-                <p>Email: {authUser.email || "user@example.com"}</p>
-                <p>Username: {authUser.username || "username"}</p>
-                <p>Password: *******</p>
-                <p>Gender: {authUser.gender || "Prefer not to say"}</p>
+                <div>
+                <p className="text-xs uppercase text-indigo-600">Email</p>
+                <p>{authUser.email || "user@example.com"}</p>
+                </div>
+                <div>
+                <p className="text-xs uppercase text-indigo-600">Username</p>
+                <p>{authUser.username || "username"}</p>
+                </div>
+                <div>
+                <p className="text-xs uppercase text-indigo-600">Password</p>
+                <p>************</p>
+                </div>
+                <div>
+                <p className="text-xs uppercase text-indigo-600">Gender</p>
+                <p>{authUser.gender || "Prefer not to say"}</p>
+                </div>
                 <div className="card-actions justify-start mt-4">
-                    <button className="btn btn-primary">Edit Profile</button>
+                    <button onClick={() => navigate("/updateaccount")} className="btn btn-primary">Edit Profile</button>
                 </div>
             </div>
         </div>
