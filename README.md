@@ -68,6 +68,8 @@ NODE_ENV=...
 3. **Install Dependencies (do for both front end and back end folders)**
     Open Terminal,
     Change the directory to the frontend folder then run "npm install"
+    Additional packages:
+    npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons
 
     Open Terminal,
     Change the directory to the backend folder then run "npm install"

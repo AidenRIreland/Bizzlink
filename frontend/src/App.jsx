@@ -17,7 +17,7 @@ function App() {
 	const justifyClass = noNavbarRoutes.includes(location.pathname) ? "justify-center" : "justify-start";
 
 	return (
-		<div className={`p-4 h-screen flex flex-col items-center ${justifyClass}`}>
+		<div className={`p-4 pb-16 flex flex-col items-center ${justifyClass}`}>
 			{!noNavbarRoutes.includes(location.pathname) && <Navbar />}
 			<Routes>
 				<Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
