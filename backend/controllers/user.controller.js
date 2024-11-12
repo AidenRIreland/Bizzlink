@@ -62,6 +62,9 @@ export const getUserById = async (req, res) => {
 export const getUserStatus = async(req,res)=>{
 	try{
 		const{id} = req.params;
+		if (!id) {
+            return res.status(400).json({ error: "User ID is required" });
+        }
 		const user = await User.findById(id, "is Online lastOnline")
 		if(!user)
 		{

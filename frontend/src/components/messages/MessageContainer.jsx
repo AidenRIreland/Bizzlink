@@ -11,8 +11,13 @@ const MessageContainer = () => {
 	const [lastOnline, setLastOnline] = useState(null);
 
 	const fetchUserStatus = async () => {
+		const userId = selectedConversation._id; // Use _id directly
+		if (!userId) {
+			console.error("Selected conversation or ID is undefined");
+			return;
+		}
 		try {
-			const response = await fetch(`/api/user/status/${selectedConversation.id}`);
+			const response = await fetch(`/api/users/status/${userId}`);
 			const data = await response.json();
 			setIsOnline(data.isOnline);
 			setLastOnline(data.lastOnline);
@@ -36,6 +41,15 @@ const MessageContainer = () => {
 
 			// Clean up interval on component unmount
 			return () => clearInterval(intervalId);
+		}
+	}, [selectedConversation]);
+	useEffect(() => {
+		console.log("Selected conversation:", selectedConversation);
+		
+		if (selectedConversation && selectedConversation._id) {
+			fetchUserStatus();
+		} else {
+			console.error("Selected conversation or ID is undefined");
 		}
 	}, [selectedConversation]);
 
