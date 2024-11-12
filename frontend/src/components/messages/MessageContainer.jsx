@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
@@ -7,11 +7,37 @@ import { useAuthContext } from "../../context/AuthContext";
 
 const MessageContainer = () => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
+	const [isOnline, setIsOnline] = useState(false);
+	const [lastOnline, setLastOnline] = useState(null);
+
+	const fetchUserStatus = async () => {
+		try {
+			const response = await fetch(`/api/user/status/${selectedConversation.id}`);
+			const data = await response.json();
+			setIsOnline(data.isOnline);
+			setLastOnline(data.lastOnline);
+		} catch (error) {
+			console.error("Failed to fetch user status", error);
+		}
+	};
 
 	useEffect(() => {
-		// cleanup function (unmounts)
+		// Cleanup function (unmounts)
 		return () => setSelectedConversation(null);
 	}, [setSelectedConversation]);
+
+	useEffect(() => {
+		if (selectedConversation) {
+			// Fetch status immediately when component mounts or selectedConversation changes
+			fetchUserStatus();
+
+			// Set up interval to refresh status every 5 seconds
+			const intervalId = setInterval(fetchUserStatus, 5000);
+
+			// Clean up interval on component unmount
+			return () => clearInterval(intervalId);
+		}
+	}, [selectedConversation]);
 
 	return (
 		<div className="md:min-w-[450px] flex flex-col bg-white">
@@ -20,14 +46,15 @@ const MessageContainer = () => {
 			) : (
 				<>
 					{/* Header */}
-					<div className="px-4 py-2 mb-2" style={{ backgroundColor: "#f0f0f5" }}> {/* Custom gray color */}
+					<div className="px-4 py-2 mb-2" style={{ backgroundColor: "#f0f0f5" }}>
 						<span className="label-text">To:</span>{" "}
 						<span className="text-indigo-600 font-bold">{selectedConversation.fullName}</span>
+						{/* Online Status part */}
 						<div className="flex items-center mt-1">
-							<span className={`w-2 h-2 rounded-full mr-1 ${selectedConversation.isOnline ? 'bg-green-500' : 'bg-gray-400'}`}/>
+							<span className={`w-2 h-2 rounded-full mr-1 ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`}/>
 							<span className="text-sm text-gray-600">
-            					{selectedConversation.isOnline ? 'Online' : `Last online: ${selectedConversation.lastOnline}`}
-        					</span>
+								{isOnline ? 'Online' : `Last online: ${lastOnline ? new Date(lastOnline).toLocaleString() : 'N/A'}`}
+							</span>
 						</div>
 					</div>
 					<Messages />
