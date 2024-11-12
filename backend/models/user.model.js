@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+//TODO: Add email to userschema
 const userSchema = new mongoose.Schema(
 	{
 		fullName: {
@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		isOnline: {
+			type: Boolean,
+			default: false
+		  },
+		  lastOnline: {
+			type: Date,
+			default: null
+		  }
 		// createdAt, updatedAt => Member since <createdAt>
 	},
 	{ timestamps: true }
