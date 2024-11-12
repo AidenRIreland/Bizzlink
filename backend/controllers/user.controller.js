@@ -57,3 +57,19 @@ export const getUserById = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+//*Get User status function
+export const getUserStatus = async(req,res)=>{
+	try{
+		const{id} = req.params;
+		const user = await User.findById(id, "is Online lastOnline")
+		if(!user)
+		{
+			return res.status(404).json({ error: "User not found" });
+		}
+		res.status(200).json({ isOnline: user.isOnline, lastOnline: user.lastOnline });
+	}catch(error){
+		console.error("Error in getUserStatus: ", error.message);
+    	res.status(500).json({ error: "Internal server error" });
+	}
+};
