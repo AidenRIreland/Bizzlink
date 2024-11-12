@@ -23,6 +23,12 @@ const MessageContainer = () => {
 					<div className="px-4 py-2 mb-2" style={{ backgroundColor: "#f0f0f5" }}> {/* Custom gray color */}
 						<span className="label-text">To:</span>{" "}
 						<span className="text-indigo-600 font-bold">{selectedConversation.fullName}</span>
+						<div className="flex items-center mt-1">
+							<span className={`w-2 h-2 rounded-full mr-1 ${selectedConversation.isOnline ? 'bg-green-500' : 'bg-gray-400'}`}/>
+							<span className="text-sm text-gray-600">
+            					{selectedConversation.isOnline ? 'Online' : `Last online: ${selectedConversation.lastOnline}`}
+        					</span>
+						</div>
 					</div>
 					<Messages />
 					<MessageInput />
