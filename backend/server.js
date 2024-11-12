@@ -12,6 +12,7 @@ import connectToMongoDB from "./db/connectToMongoDB.js";
 import { app, server } from "./socket/socket.js";
 
 // Get the directory of the current file
+//!DO NOT PUSH HARD CODED PATHINGS AS THAT WILL CAUSE ISSUES ON OTHER PCS
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
