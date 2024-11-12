@@ -46,7 +46,19 @@ const MessageContainer = () => {
 			return () => clearInterval(intervalId);
 		}
 	}, [selectedConversation]);
-
+	{/*Number Formater*/}
+	const formatLastOnline = (date) => {
+		if (!date) return 'N/A';
+		const options = {
+			month: '2-digit',
+			day: '2-digit',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: true,
+		};
+		return new Date(date).toLocaleString('en-US', options);
+	};
 	useEffect(() => {
 		console.log("Selected conversation:", selectedConversation);
 		if (selectedConversation && selectedConversation._id) {
@@ -70,9 +82,7 @@ const MessageContainer = () => {
 						<div className="flex items-center mt-1">
 							<span className={`w-2 h-2 rounded-full mr-1 ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
 							<span className="text-sm text-gray-600">
-								{isOnline
-									? 'Online'
-									: `Last online: ${lastOnline ? new Date(lastOnline).toLocaleString() : 'N/A'}`}
+								{isOnline ? 'Online' : `Last online: ${formatLastOnline(lastOnline)}`}
 							</span>
 						</div>
 					</div>
