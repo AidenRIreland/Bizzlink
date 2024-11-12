@@ -39,6 +39,7 @@ const AccountDashboard = () => {
                     </div>
                     <div className="card-actions justify-start mt-4">
                         <button onClick={() => navigate("/updateaccount")} className="btn btn-primary">Edit Profile</button>
+                        <button onClick={() => navigate("/changepassword")} className="btn btn-secondary">Change Password</button>
                     </div>
                 </div>
             </div>
