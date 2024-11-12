@@ -11,7 +11,7 @@ const MessageContainer = () => {
 	const [lastOnline, setLastOnline] = useState(null);
 
 	const fetchUserStatus = async () => {
-		const userId = selectedConversation._id; // Use _id directly
+		const userId = selectedConversation?._id;
 		if (!userId) {
 			console.error("Selected conversation or ID is undefined");
 			return;
@@ -19,8 +19,11 @@ const MessageContainer = () => {
 		try {
 			const response = await fetch(`/api/users/status/${userId}`);
 			const data = await response.json();
+			console.log("Fetched user status:", data); // Add logging to check data response
 			setIsOnline(data.isOnline);
 			setLastOnline(data.lastOnline);
+			console.log("isOnline:", data.isOnline);
+        	console.log("lastOnline:", data.lastOnline);
 		} catch (error) {
 			console.error("Failed to fetch user status", error);
 		}
@@ -43,9 +46,9 @@ const MessageContainer = () => {
 			return () => clearInterval(intervalId);
 		}
 	}, [selectedConversation]);
+
 	useEffect(() => {
 		console.log("Selected conversation:", selectedConversation);
-		
 		if (selectedConversation && selectedConversation._id) {
 			fetchUserStatus();
 		} else {
@@ -65,9 +68,11 @@ const MessageContainer = () => {
 						<span className="text-indigo-600 font-bold">{selectedConversation.fullName}</span>
 						{/* Online Status part */}
 						<div className="flex items-center mt-1">
-							<span className={`w-2 h-2 rounded-full mr-1 ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`}/>
+							<span className={`w-2 h-2 rounded-full mr-1 ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
 							<span className="text-sm text-gray-600">
-								{isOnline ? 'Online' : `Last online: ${lastOnline ? new Date(lastOnline).toLocaleString() : 'N/A'}`}
+								{isOnline
+									? 'Online'
+									: `Last online: ${lastOnline ? new Date(lastOnline).toLocaleString() : 'N/A'}`}
 							</span>
 						</div>
 					</div>
