@@ -6,16 +6,45 @@ const useSignup = () => {
 	const [loading, setLoading] = useState(false);
 	const { setAuthUser } = useAuthContext();
 
-	const signup = async ({ fullName, username, password, confirmPassword, gender }) => {
-		const success = handleInputErrors({ fullName, username, password, confirmPassword, gender });
-		if (!success) return;
+	const signup = async ({   fullName,
+        username,
+        password,
+        confirmPassword,
+        email,
+        phone,
+        companyName,
+        industry,
+        address,
+        socialLinks,
+        businessLogo,
+        gender, }) => {
+		  // Handle input validation if needed
+		  if (!fullName || !username || !email || !password || !confirmPassword) {
+            toast.error("Please fill in all required fields.");
+            return false;
+        }
+        if (password !== confirmPassword) {
+            toast.error("Passwords do not match.");
+            return false;
+        }
 
 		setLoading(true);
 		try {
 			const res = await fetch("/api/auth/signup", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ fullName, username, password, confirmPassword, gender }),
+				body: JSON.stringify({  fullName,
+                    username,
+                    password,
+                    confirmPassword,
+                    email,
+                    phone,
+                    companyName,
+                    industry,
+                    address,
+                    socialLinks,
+                    businessLogo,
+                    gender, }),
 			});
 
 			const data = await res.json();
@@ -26,6 +55,21 @@ const useSignup = () => {
 			setAuthUser(data);
 		} catch (error) {
 			toast.error(error.message);
+			console.log("Inputs sent to signup:", {
+				fullName,
+				username,
+				password,
+				confirmPassword,
+				email,
+				phone,
+				companyName,
+				industry,
+				address,
+				socialLinks,
+				businessLogo,
+				gender,
+			});
+			
 		} finally {
 			setLoading(false);
 		}
