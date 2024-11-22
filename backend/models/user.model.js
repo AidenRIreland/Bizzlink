@@ -16,15 +16,47 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			minlength: 6,
 		},
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+			match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"],
+		},
+		  phone: {
+			type: String,
+			required: true,
+		  },
+		  companyName: {
+			type: String,
+			required: true,
+		  },
+		  industry: [
+			{
+			  type: String,
+			},
+		  ],
+		  address: {
+			type: String,
+			required: true,
+		  },
+		  socialLinks: { type: [String] }, 
+		  businessLogo: {
+			type: String,
+			default: "",
+		  },
+
 		gender: {
 			type: String,
 			required: true,
 			enum: ["male", "female"],
 		},
+		
 		profilePic: {
 			type: String,
 			default: "",
 		},
+
+
 		// createdAt, updatedAt => Member since <createdAt>
 	},
 	{ timestamps: true }
