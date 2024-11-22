@@ -55,7 +55,6 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
-<<<<<<< HEAD
 		isOnline: {
 			type: Boolean,
 			default: false
@@ -64,10 +63,6 @@ const userSchema = new mongoose.Schema(
 			type: Date,
 			default: null
 		  }
-=======
-
-
->>>>>>> feature/registration-update
 		// createdAt, updatedAt => Member since <createdAt>
 	},
 	{ timestamps: true }

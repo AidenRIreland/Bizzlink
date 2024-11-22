@@ -88,22 +88,14 @@ export const login = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
     const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
-
-<<<<<<< HEAD
 		if (!user || !isPasswordCorrect) {
 			return res.status(400).json({ error: "Invalid username or password" });
 		}
 		//Update online status
 		//!DO NOT MESS WITH IT
 		await User.findByIdAndUpdate(user._id, { isOnline: true, lastOnline: null });
-=======
-    if (!user || !isPasswordCorrect) {
-      return res.status(400).json({ error: "Invalid username or password" });
-    }
->>>>>>> feature/registration-update
-
+    //? Generate tokenandcookie based off user _id
     generateTokenAndSetCookie(user._id, res);
-
     res.status(200).json({
       _id: user._id,
       fullName: user.fullName,
@@ -115,7 +107,6 @@ export const login = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-<<<<<<< HEAD
 //change to async to allow update status
 export const logout = async (req, res) => {
     try {
@@ -146,17 +137,6 @@ export const logout = async (req, res) => {
         console.log("Error in logout controller:", error.message);
         res.status(500).json({ error: "Internal Server Error" });
     }
-=======
-
-export const logout = (req, res) => {
-  try {
-    res.cookie("jwt", "", { maxAge: 0 });
-    res.status(200).json({ message: "Logged out successfully" });
-  } catch (error) {
-    console.error("Error in logout controller:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
->>>>>>> feature/registration-update
 };
 
 export const changePassword = async (req, res) => {
