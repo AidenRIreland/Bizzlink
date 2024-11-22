@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-//TODO: Add email to userschema
 const userSchema = new mongoose.Schema(
 	{
 		fullName: {
