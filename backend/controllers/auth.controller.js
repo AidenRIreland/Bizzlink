@@ -2,6 +2,9 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
+import speakeasy from "speakeasy";
+import qrcode from "qrcode";
+
 
 export const signup = async (req, res) => {
   console.log("Request body received by backend:", req.body);
@@ -170,4 +173,26 @@ export const changePassword = async (req, res) => {
     console.error("Error in changePassword:", error.message);
     res.status(500).json({ error: "Server error" });
   }
+};
+
+export const setupTwoFactor = async (req,res)=>{
+  const userId = req.user._id;
+
+  // Generate 2FA secret
+  const secret = speakeasy.generateSecret({ name: "Bizzlink" });
+
+  // Save the secret to the user's account
+  await User.findByIdAndUpdate(userId, {
+    twoFactorSecret: secret.base32,
+    twoFactorEnabled: false, // Initially false until verified
+  });
+
+  // Generate a QR code
+  qrcode.toDataURL(secret.otpauth_url, (err, dataUrl) => {
+    if (err) {
+      console.error("QR Code generation error:", err);
+      return res.status(500).json({ error: "Failed to generate QR code" });
+    }
+    res.status(200).json({ otpauthUrl: secret.otpauth_url, qrCode: dataUrl });
+  });
 };
