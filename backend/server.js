@@ -10,7 +10,7 @@ import userRoutes from "./routes/user.routes.js";
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import { app, server } from "./socket/socket.js";
-
+import cors from "cors";
 // Get the directory of the current file
 //!DO NOT PUSH HARD CODED PATHINGS AS THAT WILL CAUSE ISSUES ON OTHER PCS
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +26,12 @@ console.log("Loaded Test Variable:", process.env.TEST_VARIABLE);
 // Set the port after loading .env variables
 const PORT = process.env.PORT || 5000;
 
+app.use(cors({
+    origin: "http://localhost:3000",// Allow requests from frontend
+    credentials: true, // Allow cookies and authentication headers
+}));
+app.options('*', cors()); // Handle preflight requests for all routes
+
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
 
@@ -39,6 +45,11 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
+// * Log Incoming Requests
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
 server.listen(PORT, () => {
     connectToMongoDB();
     console.log(`Server Running on port ${PORT}`);

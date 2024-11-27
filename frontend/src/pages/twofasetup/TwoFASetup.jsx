@@ -9,26 +9,27 @@ const TwoFASetup = () => {
 
   useEffect(() => {
     const fetchQRCode = async () => {
-      try {
-        const response = await fetch("/api/auth/2fa/setup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-
-        const data = await response.json();
-        if (response.ok) {
+        try {
+          const response = await fetch('http://localhost:5000/api/auth/2fa/setup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include', // Send cookies with the request
+          });
+      
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
           setQrCode(data.qrCode);
-        } else {
-          toast.error(data.error || "Failed to fetch QR code");
+        } catch (error) {
+          console.error('Error fetching QR code:', error.message);
         }
-      } catch (error) {
-        console.error("Error fetching QR code:", error);
-        toast.error("Failed to fetch QR code");
-      }
-    };
+      };
 
     fetchQRCode();
   }, []);
@@ -36,14 +37,13 @@ const TwoFASetup = () => {
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/auth/2fa/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ token: otp }),
-      });
+        const response = await fetch("http://localhost:5000/api/auth/2fa/setup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          });
 
       const data = await response.json();
       if (response.ok) {

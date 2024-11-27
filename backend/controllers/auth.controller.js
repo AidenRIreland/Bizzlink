@@ -175,24 +175,30 @@ export const changePassword = async (req, res) => {
   }
 };
 
-export const setupTwoFactor = async (req,res)=>{
-  const userId = req.user._id;
+export const setupTwoFactor = async (req, res) => {
+  console.log("2FA setup endpoint hit");
+  console.log('Received request to /2fa/setup');
+  try {
+    const userId = req.user._id;
+    const secret = speakeasy.generateSecret({ name: 'Bizzlink' });
 
-  // Generate 2FA secret
-  const secret = speakeasy.generateSecret({ name: "Bizzlink" });
+    console.log('Generated secret:', secret);
 
-  // Save the secret to the user's account
-  await User.findByIdAndUpdate(userId, {
-    twoFactorSecret: secret.base32,
-    twoFactorEnabled: false, // Initially false until verified
-  });
+    await User.findByIdAndUpdate(userId, {
+      twoFactorSecret: secret.base32,
+      twoFactorEnabled: false,
+    });
 
-  // Generate a QR code
-  qrcode.toDataURL(secret.otpauth_url, (err, dataUrl) => {
-    if (err) {
-      console.error("QR Code generation error:", err);
-      return res.status(500).json({ error: "Failed to generate QR code" });
-    }
-    res.status(200).json({ otpauthUrl: secret.otpauth_url, qrCode: dataUrl });
-  });
+    qrcode.toDataURL(secret.otpauth_url, (err, dataUrl) => {
+      if (err) {
+        console.error('Error generating QR code:', err);
+        return res.status(500).json({ error: 'Failed to generate QR code' });
+      }
+      console.log('QR code generated successfully');
+      res.status(200).json({ otpauthUrl: secret.otpauth_url, qrCode: dataUrl });
+    });
+  } catch (error) {
+    console.error('Error in setupTwoFactor:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
