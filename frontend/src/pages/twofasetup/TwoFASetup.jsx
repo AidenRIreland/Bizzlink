@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
 
 const TwoFASetup = () => {
   const [qrCode, setQrCode] = useState(null);
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
+  const { authUser: loggedInUser } = useAuthContext();
 
   useEffect(() => {
     const fetchQRCode = async () => {
@@ -37,12 +39,16 @@ const TwoFASetup = () => {
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch("http://localhost:5000/api/auth/2fa/setup", {
+        const response = await fetch("http://localhost:5000/api/auth/2fa/verify", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            credentials: "include",
+            credentials: "include", // Include cookies for authentication
+            body: JSON.stringify({
+              token: otp, // OTP entered by the user
+              userId: loggedInUser?._id, // Replace with the user's ID
+            }),
           });
 
       const data = await response.json();
@@ -57,6 +63,7 @@ const TwoFASetup = () => {
       toast.error("Failed to verify 2FA");
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center">

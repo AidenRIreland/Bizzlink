@@ -202,3 +202,38 @@ export const setupTwoFactor = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+export const verifyTwoFactor = async (req, res) => {
+  const { userId, token } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  if (!token) {
+    return res.status(400).json({ error: "Token is required" });
+  }
+  try {
+      // Fetch user data
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      // Verify the token using the stored secret
+      const verified = speakeasy.totp.verify({
+          secret: user.twoFactorSecret,
+          encoding: "base32",
+          token,
+      });
+
+      if (!verified) {
+          return res.status(400).json({ error: "Invalid or expired token" });
+      }
+
+      // Update `twoFactorEnabled` to true
+      user.twoFactorEnabled = true;
+      await user.save();
+
+      res.status(200).json({ message: "2FA successfully enabled" });
+  } catch (error) {
+      console.error("Error verifying 2FA:", error);
+      res.status(500).json({ error: "Internal server error" });
+  }
+};

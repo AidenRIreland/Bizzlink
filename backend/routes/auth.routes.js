@@ -1,6 +1,6 @@
 import express from "express";
 import protectRoute from "../middleware/protectRoute.js";
-import { login, logout, signup, changePassword, setupTwoFactor } from "../controllers/auth.controller.js";
+import { login, logout, signup, changePassword, setupTwoFactor, verifyTwoFactor } from "../controllers/auth.controller.js";
 
 
 const router = express.Router();
@@ -14,5 +14,5 @@ router.post("/logout", logout);
 router.post('/change-password', protectRoute, changePassword);
 //!Handle 2FA Setup
 router.post("/2fa/setup", protectRoute, setupTwoFactor);
-
+router.post("/2fa/verify", verifyTwoFactor);
 export default router;
