@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import AccountDashboard from "./pages/AccountDashboard";
 import AccountUpdate from "./pages/AccountUpdate";
 import PublicProfile from "./pages/PublicProfile";
+import PublicProfileEdit from "./pages/PublicProfileEdit";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
@@ -28,6 +29,7 @@ function App() {
 				<Route path='/updateaccount' element={authUser ? <AccountUpdate /> : <Navigate to={"/login"} />} />
 				<Route path='/publicprofile/:id' element={<PublicProfile />} />
 				<Route path="/changepassword" element={<ChangePasswordPage />} />
+				<Route path='/editprofile/:id' element={authUser ? <PublicProfileEdit /> : <Navigate to={"/login"} />} />
 
 			</Routes>
 			<Toaster />
