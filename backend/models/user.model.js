@@ -57,12 +57,21 @@ const userSchema = new mongoose.Schema(
 		isOnline: {
 			type: Boolean,
 			default: false
-		  },
-		  lastOnline: {
+		},
+		lastOnline: {
 			type: Date,
 			default: null
-		  }
+		  },
 		// createdAt, updatedAt => Member since <createdAt>
+		//?2FA Enable and screat scemha
+		twoFactorEnabled:{
+			type: Boolean,
+			default: false,
+		},
+		twoFactorSecret:{
+			type:String,
+			default: null,
+		}
 	},
 	{ timestamps: true }
 );

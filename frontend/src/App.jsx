@@ -11,6 +11,7 @@ import PublicProfileEdit from "./pages/PublicProfileEdit";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import TwoFASetup from "./pages/twofasetup/TwoFASetup";
 
 function App() {
 	const { authUser } = useAuthContext();
@@ -30,6 +31,7 @@ function App() {
 				<Route path='/publicprofile/:id' element={<PublicProfile />} />
 				<Route path="/changepassword" element={<ChangePasswordPage />} />
 				<Route path='/editprofile/:id' element={authUser ? <PublicProfileEdit /> : <Navigate to={"/login"} />} />
+				<Route path="/Enable2FA" element={authUser ? <TwoFASetup /> : <Navigate to="/login" />} />
 
 			</Routes>
 			<Toaster />

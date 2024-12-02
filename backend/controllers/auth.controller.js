@@ -2,6 +2,9 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
+import speakeasy from "speakeasy";
+import qrcode from "qrcode";
+
 
 export const signup = async (req, res) => {
   console.log("Request body received by backend:", req.body);
@@ -169,5 +172,68 @@ export const changePassword = async (req, res) => {
   } catch (error) {
     console.error("Error in changePassword:", error.message);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const setupTwoFactor = async (req, res) => {
+  console.log("2FA setup endpoint hit");
+  console.log('Received request to /2fa/setup');
+  try {
+    const userId = req.user._id;
+    const secret = speakeasy.generateSecret({ name: 'Bizzlink' });
+
+    console.log('Generated secret:', secret);
+
+    await User.findByIdAndUpdate(userId, {
+      twoFactorSecret: secret.base32,
+      twoFactorEnabled: false,
+    });
+
+    qrcode.toDataURL(secret.otpauth_url, (err, dataUrl) => {
+      if (err) {
+        console.error('Error generating QR code:', err);
+        return res.status(500).json({ error: 'Failed to generate QR code' });
+      }
+      console.log('QR code generated successfully');
+      res.status(200).json({ otpauthUrl: secret.otpauth_url, qrCode: dataUrl });
+    });
+  } catch (error) {
+    console.error('Error in setupTwoFactor:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+export const verifyTwoFactor = async (req, res) => {
+  const { userId, token } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  if (!token) {
+    return res.status(400).json({ error: "Token is required" });
+  }
+  try {
+      // Fetch user data
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      // Verify the token using the stored secret
+      const verified = speakeasy.totp.verify({
+          secret: user.twoFactorSecret,
+          encoding: "base32",
+          token,
+      });
+
+      if (!verified) {
+          return res.status(400).json({ error: "Invalid or expired token" });
+      }
+
+      // Update `twoFactorEnabled` to true
+      user.twoFactorEnabled = true;
+      await user.save();
+
+      res.status(200).json({ message: "2FA successfully enabled" });
+  } catch (error) {
+      console.error("Error verifying 2FA:", error);
+      res.status(500).json({ error: "Internal server error" });
   }
 };
