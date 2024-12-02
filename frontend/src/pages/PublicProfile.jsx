@@ -49,7 +49,7 @@ const PublicProfile = () => {
                         {/* <h2 className="card-title">{userProfile?.fullName || "Full Name"}</h2> */}
                         <h2 className="card-title">{userProfile?.companyName || "Company Name"}</h2>
                         {authUser?._id === id && (
-                            <Link to="/" className="btn btn-link">Edit Public Profile</Link>
+                            <Link to={`/editprofile/${id}`} className="btn btn-link">Edit Public Profile</Link>
                         )}
                     </div>
                     <div className="flex flex-col gap-4">
