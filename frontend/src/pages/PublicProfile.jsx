@@ -40,7 +40,7 @@ const PublicProfile = () => {
                     <img
                         src={userProfile?.businessLogo || "https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"}
                         alt="User Profile"
-                        className="w-full h-auto object-contain rounded-full border-2 border-gray-200"
+                        className="w-full h-auto object-cover rounded-full border-2 border-gray-200 aspect-square"
                     />
                 </figure>
                 <div className="card-body gap-4">

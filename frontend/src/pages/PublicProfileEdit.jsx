@@ -108,7 +108,7 @@ const PublicProfileEdit = () => {
                     <img
                         src={businessLogo || "https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"}
                         alt="Business Logo"
-                        className="w-10/12 h-auto object-contain"
+                        className="w-10/12 h-auto object-cover aspect-square"
                     />
                 </figure>
                 <div className="card-body gap-4">
