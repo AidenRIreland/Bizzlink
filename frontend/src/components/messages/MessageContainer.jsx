@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
@@ -23,7 +24,7 @@ const MessageContainer = () => {
 			setIsOnline(data.isOnline);
 			setLastOnline(data.lastOnline);
 			console.log("isOnline:", data.isOnline);
-        	console.log("lastOnline:", data.lastOnline);
+			console.log("lastOnline:", data.lastOnline);
 		} catch (error) {
 			console.error("Failed to fetch user status", error);
 		}
@@ -46,7 +47,7 @@ const MessageContainer = () => {
 			return () => clearInterval(intervalId);
 		}
 	}, [selectedConversation]);
-	{/*Number Formater*/}
+	{/*Number Formater*/ }
 	const formatLastOnline = (date) => {
 		if (!date) return 'N/A';
 		const options = {
@@ -76,8 +77,18 @@ const MessageContainer = () => {
 				<>
 					{/* Header */}
 					<div className="px-4 py-2 mb-2" style={{ backgroundColor: "#f0f0f5" }}>
-						<span className="label-text">To:</span>{" "}
-						<span className="text-indigo-600 font-bold">{selectedConversation.fullName}</span>
+						<div className="flex flex-row justify-between items-start">
+							<div>
+								<span className="label-text">To:</span>{" "}
+								<span className="text-indigo-600 font-bold">{selectedConversation.fullName}</span>
+							</div>
+							<Link
+								to={`/publicprofile/${selectedConversation._id}`}
+								className="ml-4 text-sm text-indigo-500 hover:text-indigo-700 underline"
+							>
+								View Profile
+							</Link>
+						</div>
 						{/* Online Status part */}
 						<div className="flex items-center mt-1">
 							<span className={`w-2 h-2 rounded-full mr-1 ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />

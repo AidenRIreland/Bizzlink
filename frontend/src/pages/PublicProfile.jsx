@@ -38,35 +38,28 @@ const PublicProfile = () => {
                 <figure className="lg:w-5/12 h-min p-8">
                     {/* Need to replace this with company logo */}
                     <img
-                        src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"
+                        src={userProfile?.businessLogo || "https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"}
                         alt="User Profile"
-                        className="w-full h-auto object-contain rounded-full"
+                        className="w-full h-auto object-cover rounded-full border-2 border-gray-200 aspect-square"
                     />
                 </figure>
                 <div className="card-body gap-4">
                     {/* Replace placeholders when Registration is done */}
                     <div className="flex flex-row justify-between items-center">
                         {/* <h2 className="card-title">{userProfile?.fullName || "Full Name"}</h2> */}
-                        <h2 className="card-title">Company Name</h2>
+                        <h2 className="card-title">{userProfile?.companyName || "Company Name"}</h2>
                         {authUser?._id === id && (
-                            <Link to="/" className="btn btn-link">Edit Public Profile</Link>
+                            <Link to={`/editprofile/${id}`} className="btn btn-link">Edit Public Profile</Link>
                         )}
                     </div>
-                    {/* <div>
-                        <p className="text-xs uppercase text-indigo-600">Username</p>
-                        <p>{userProfile?.username || "username"}</p>
-                    </div>
-                    <div>
-                        <p className="text-xs uppercase text-indigo-600">Gender</p>
-                        <p>{userProfile?.gender || "Prefer not to say"}</p>
-                    </div> */}
                     <div className="flex flex-col gap-4">
                         <h4 className="text-indigo-900">Industry</h4>
                         <div className="flex flex-row gap-2">
-                            <div className="badge bg-pink-200 border-pink-200 uppercase text-xs">Packaging</div>
-                            <div className="badge bg-cyan-200 border-cyan-200 uppercase text-xs">B2B</div>
-                            <div className="badge bg-purple-200 border-purple-200 uppercase text-xs">Wholesale</div>
-                            <div className="badge bg-teal-200 border-teal-200 uppercase text-xs">Wholesale</div>
+                            {userProfile?.industry.map((tag, index) => (
+                                <div key={index} className="badge bg-pink-200 border-pink-200 uppercase text-xs">
+                                    {tag}
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className="divider"></div>
@@ -75,30 +68,32 @@ const PublicProfile = () => {
                         <div className="flex flex-row gap-4 ">
                             <div className="flex-1 flex flex-col gap-1">
                                 <p className="text-xs uppercase text-indigo-600">Email</p>
-                                <p>company@example.com</p>
+                                <p>{userProfile?.email || "company@example.com"}</p>
                             </div>
                             <div className="flex-1 flex flex-col gap-1">
                                 <p className="text-xs uppercase text-indigo-600">Phone</p>
-                                <p>+1 234 567 8901</p>
+                                <p>{userProfile?.phone || "+1 234 567 8901"}</p>
                             </div>
                         </div>
                         <div className="flex flex-row gap-4 ">
                             <div className="flex-1 flex flex-col gap-1">
                                 <p className="text-xs uppercase text-indigo-600">Address</p>
-                                <p>Scarborough, ON</p>
+                                <p>{userProfile?.address || "Scarborough, ON"}</p>
                             </div>
                             <div className="flex-1 flex flex-col gap-1">
                                 <p className="text-xs uppercase text-indigo-600">Socials</p>
-                                <div className="flex flex-row gap-2">
-                                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
-                                        <FontAwesomeIcon icon={faLinkedin} size="lg" className="text-indigo-300 hover:text-indigo-600 transition-all duration-300" />
-                                    </a>
-                                    <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
-                                        <FontAwesomeIcon icon={faSquareFacebook} size="lg" className="text-indigo-300 hover:text-indigo-600 transition-all duration-300" />
-                                    </a>
-                                    <a href="https://www.twitter.com/" target="_blank" rel="noopener noreferrer">
-                                        <FontAwesomeIcon icon={faSquareXTwitter} size="lg" className="text-indigo-300 hover:text-indigo-600 transition-all duration-300" />
-                                    </a>
+                                <div className="flex flex-col gap-1">
+                                    {userProfile?.socialLinks.map((link, index) => (
+                                        <a
+                                            key={index}
+                                            href={link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-indigo-600 hover:underline hover:text-indigo-800 transition-all duration-300"
+                                        >
+                                            {link}
+                                        </a>
+                                    ))}
                                 </div>
                             </div>
                         </div>

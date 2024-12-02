@@ -21,6 +21,16 @@ const SignUp = () => {
 
 	const { loading, signup } = useSignup();
 
+	const handleImageUpload = (e) => {
+		const file = e.target.files[0];
+		if (!file) return;
+		const reader = new FileReader();
+		reader.onloadend = () => {
+			setInputs((prevInputs) => ({ ...prevInputs, businessLogo: reader.result }));
+		};
+		reader.readAsDataURL(file);
+	};
+
 	const handleCheckboxChange = (gender) => {
 		setInputs({ ...inputs, gender });
 	};
@@ -30,7 +40,6 @@ const SignUp = () => {
 		console.log("Inputs sent to signup:", inputs);
 		await signup(inputs);
 	};
-	
 
 	return (
 		<div className="flex flex-col items-center justify-center min-w-96 mx-auto">
@@ -176,12 +185,18 @@ const SignUp = () => {
 						<label className="label p-2">
 							<span className="text-base label-text text-gray-500">Business Logo</span>
 						</label>
-						<input
+						{/* <input
 							type="text"
 							placeholder="URL to business logo"
 							className="w-full input input-bordered h-10 bg-[#f0f0f0] text-gray-500 rounded-md"
 							value={inputs.businessLogo}
 							onChange={(e) => setInputs({ ...inputs, businessLogo: e.target.value })}
+						/> */}
+						<input
+							type="file"
+							accept="image/*"
+							onChange={handleImageUpload}
+							className="input input-bordered w-full bg-[#f0f0f0] text-gray-500"
 						/>
 					</div>
 
