@@ -43,6 +43,14 @@ const Navbar = () => {
                         </button>
                     </li>
                     <li>
+                        <button
+                            onClick={() => navigate("/searc")}
+                            className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/searc" ? "bg-indigo-100 text-indigo-600" : ""}`}
+                        >
+                            Search
+                        </button>
+                    </li>
+                    <li>
                         <button onClick={handleLogout} className="btn btn-ghost min-h-0 h-auto" disabled={loading}>
                             {loading ? "Logging out..." : "Logout"}
                         </button>
@@ -83,6 +91,14 @@ const Navbar = () => {
                                 className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/myaccount" ? "bg-indigo-100 text-indigo-600" : ""}`}
                             >
                                 My Account
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onClick={() => { navigate("/searc"); setMenuOpen(false); }}
+                                className={`btn btn-ghost min-h-0 h-auto ${location.pathname === "/searc" ? "bg-indigo-100 text-indigo-600" : ""}`}
+                            >
+                                Search
                             </button>
                         </li>
                         <li>

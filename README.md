@@ -1,4 +1,4 @@
-<h1 align="center">Bizzlink</h1>
+cd <h1 align="center">Bizzlink</h1>
 
 
 <p align="center">
@@ -84,6 +84,7 @@ NODE_ENV=...
 
 ```shell
 npm run build
+npm start
 ```
     If you have errors > 
         It means you did not configure MongoDB properly/ App is not communicating with Mongo DB, troubleshoot. 
