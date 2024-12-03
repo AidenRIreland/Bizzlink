@@ -1,5 +1,6 @@
 import express from "express";
 import protectRoute from "../middleware/protectRoute.js";
+import User from "../models/user.model.js";
 import { login, logout, signup, changePassword, setupTwoFactor, verifyTwoFactor, forgotPassword,forgotPasswordWith2FA, resetPassword } from "../controllers/auth.controller.js";
 
 
