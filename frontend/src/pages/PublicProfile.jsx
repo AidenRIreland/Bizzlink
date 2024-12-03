@@ -63,14 +63,15 @@ const PublicProfile = () => {
     return (
         <div className="flex justify-center">
             <div className="card lg:card-side bg-base-100 shadow-xl w-full max-w-4xl">
-                <figure className="lg:w-5/12 min-w-[200px] h-min p-8">
-                    {/* Need to replace this with company logo */}
-                    <img
-                        src={userProfile?.businessLogo || "https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"}
-                        alt="User Profile"
-                        className="w-full h-auto object-cover rounded-full border-2 border-gray-200 aspect-square"
-                    />
-                </figure>
+                <div className="lg:w-[250px] flex-shrink-0 p-8">
+                    <figure>
+                        <img
+                            src={userProfile?.businessLogo || "https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"}
+                            alt="User Profile"
+                            className="w-full h-auto object-cover rounded-full border-2 border-gray-200"
+                        />
+                    </figure>
+                </div>
                 <div className="card-body gap-4">
                     {/* Replace placeholders when Registration is done */}
                     <div className="flex flex-row justify-between items-center">
@@ -134,11 +135,12 @@ const PublicProfile = () => {
                                 <Link to="/create-product" className="btn btn-link">Add New Product</Link>
                             )}
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(220px,_1fr))] gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4">
                             {products.map((product) => (
                                 <div
                                     key={product._id}
                                     className="rounded-lg border border-gray-100 shadow-sm flex flex-col gap-4 p-4"
+                                    style={{ minHeight: "320px" }}
                                 >
                                     <div className="aspect-[1/1] overflow-hidden rounded-lg">
                                         <img
