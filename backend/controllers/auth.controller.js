@@ -237,3 +237,72 @@ export const verifyTwoFactor = async (req, res) => {
       res.status(500).json({ error: "Internal server error" });
   }
 };
+//!Forgot Password Handler
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.twoFactorEnabled) {
+      // If 2FA is enabled, generate OTP
+      const otp = generateOTP(); // Function to generate OTP
+      // Save OTP to user record or session
+      user.otp = otp;
+      await user.save();
+
+      // Send OTP via email
+      await sendEmail(user.email, "Your OTP for Password Reset", `OTP: ${otp}`);
+      return res.json({ is2FA: true });
+    }
+
+    // Send reset link for non-2FA users
+    const token = generateToken(user._id); // Function to generate JWT
+    await sendEmail(
+      user.email,
+      "Password Reset Link",
+      `Click here to reset your password: ${process.env.FRONTEND_URL}/reset-password?token=${token}`
+    );
+
+    res.json({ is2FA: false });
+  } catch (error) {
+    console.error("Error in forgotPassword:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+//!Reset Password for 2FA
+export const forgotPasswordWith2FA = async (req, res) => {
+  const { email, otp } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user || user.otp !== otp) {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    user.otp = undefined; // Clear OTP after use
+    await user.save();
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error in forgotPasswordWith2FA:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+//!Reset Password for Non-2FA
+export const resetPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error in resetPassword:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

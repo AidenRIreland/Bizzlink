@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword";
 import Navbar from "./components/Navbar";
 import AccountDashboard from "./pages/AccountDashboard";
 import AccountUpdate from "./pages/AccountUpdate";
@@ -26,6 +27,7 @@ function App() {
 				<Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
 				<Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
 				<Route path='/signup' element={authUser ? <Navigate to='/' /> : <SignUp />} />
+				<Route path="/forgot-password" element={authUser ? <Navigate to='/' /> :<ForgotPassword />} />
 				<Route path='/myaccount' element={authUser ? <AccountDashboard /> : <Navigate to={"/login"} />} />
 				<Route path='/updateaccount' element={authUser ? <AccountUpdate /> : <Navigate to={"/login"} />} />
 				<Route path='/publicprofile/:id' element={<PublicProfile />} />
