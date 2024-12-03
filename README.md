@@ -30,6 +30,7 @@ By:
 ![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white)
 ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visual-studio-code&logoColor=white)
+![Better Comments](https://img.shields.io/badge/-Better%20Comments-FF6F61?logo=visual-studio-code&logoColor=white)
 ![Windows](https://img.shields.io/badge/-Windows-0078D6?logo=windows&logoColor=white)
 ![ClickUp](https://img.shields.io/badge/-ClickUp-7B68EE?logo=clickup&logoColor=white)
 ![Sourcetree](https://img.shields.io/badge/-Sourcetree-0052CC?logo=sourcetree&logoColor=white)
@@ -104,4 +105,4 @@ npm run dev
     Open http://localhost:3000/ on 2 browsers/incognito mode. 
     Sign up 2 different accounts, and talk to yourself. 
 
-http://localhost:3000/
+Please have the [Better Comments Extenstion](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) in VSC to help with important comments and TODO comments
