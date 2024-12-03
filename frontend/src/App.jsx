@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword";
 import Navbar from "./components/Navbar";
 import AccountDashboard from "./pages/AccountDashboard";
 import AccountUpdate from "./pages/AccountUpdate";
@@ -13,7 +14,7 @@ import { useAuthContext } from "./context/AuthContext";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import TwoFASetup from "./pages/twofasetup/TwoFASetup";
 import SearchFilterPage from "./pages/SearchFilterPage"; // Import your new page here
-
+import CreateProduct from "./pages/products/CreateProduct";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
 				<Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
 				<Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
 				<Route path='/signup' element={authUser ? <Navigate to='/' /> : <SignUp />} />
+				<Route path="/forgot-password" element={authUser ? <Navigate to='/' /> :<ForgotPassword />} />
 				<Route path='/myaccount' element={authUser ? <AccountDashboard /> : <Navigate to={"/login"} />} />
 				<Route path='/updateaccount' element={authUser ? <AccountUpdate /> : <Navigate to={"/login"} />} />
 				<Route path='/publicprofile/:id' element={<PublicProfile />} />
@@ -36,11 +38,7 @@ function App() {
 				<Route path='/editprofile/:id' element={authUser ? <PublicProfileEdit /> : <Navigate to={"/login"} />} />
 				<Route path="/Enable2FA" element={authUser ? <TwoFASetup /> : <Navigate to="/login" />} />
 				<Route path="/searc" element={authUser ? <SearchFilterPage /> : <Navigate to={"/login"} />} />
-
-
-				
-			
-
+				<Route path="/create-product" element={<CreateProduct />} />
 			</Routes>
 			<Toaster />
 		</div>

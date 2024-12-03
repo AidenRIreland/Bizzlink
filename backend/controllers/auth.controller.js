@@ -237,3 +237,98 @@ export const verifyTwoFactor = async (req, res) => {
       res.status(500).json({ error: "Internal server error" });
   }
 };
+export const verifyOTP = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user || user.otp !== otp) {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    if (user.otpExpiry < Date.now()) {
+      return res.status(400).json({ error: "OTP has expired" });
+    }
+
+    user.otp = undefined; // Clear OTP after verification
+    user.otpExpiry = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "OTP verified successfully. You may now reset your password." });
+  } catch (error) {
+    console.error("Error in verifyOTP:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+//!Forgot Password Handler
+export const forgotPassword = async (req, res) => {
+  const { username, newPassword, token } = req.body;
+
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if 2FA is enabled
+    if (user.twoFactorEnabled) {
+      // Verify the 2FA token
+      const isValidToken = speakeasy.totp.verify({
+        secret: user.twoFactorSecret,
+        encoding: "base32",
+        token,
+      });
+
+      if (!isValidToken) {
+        return res.status(400).json({ error: "Invalid 2FA code" });
+      }
+    }
+
+    // If 2FA is not enabled, or if the token is valid, allow password reset
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error("Error in forgotPassword:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+//!Reset Password if you have 2FA
+export const forgotPasswordWith2FA = async (req, res) => {
+  const { email, otp } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user || user.otp !== otp) {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    user.otp = undefined; // Clear OTP after use
+    await user.save();
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error in forgotPasswordWith2FA:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+//!Reset Password
+export const resetPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error("Error in resetPassword:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
