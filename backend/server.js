@@ -34,6 +34,10 @@ app.use(cors({
 }));
 app.options('*', cors()); // Handle preflight requests for all routes
 
+// Increase payload size limits
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true })); 
+
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
 

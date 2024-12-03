@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useAuthContext } from "../../context/AuthContext";
 
 const CreateProduct = () => {
+    const { authUser } = useAuthContext();
     const [productName, setProductName] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -42,7 +44,7 @@ const CreateProduct = () => {
 
             const product = await response.json();
             toast.success("Product created successfully");
-            navigate(`/product/${product._id}`);
+            navigate(`/publicprofile/${authUser._id}`);
         } catch (error) {
             console.error("Error creating product:", error.message);
             toast.error(error.message || "An error occurred");
@@ -52,7 +54,10 @@ const CreateProduct = () => {
     };
 
     return (
-        <div className="flex justify-center">
+        <div className="flex flex-col gap-4 justify-center">
+            <Link to={`/publicprofile/${authUser._id}`} className="text-white underline">
+                Back to Profile
+            </Link>
             <div className="card w-full max-w-3xl bg-base-100 shadow-xl p-8">
                 <h2 className="card-title mb-4">Create Product</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
