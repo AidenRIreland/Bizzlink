@@ -13,6 +13,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import TwoFASetup from "./pages/twofasetup/TwoFASetup";
+import CreateProduct from "./pages/products/CreateProduct";
 
 function App() {
 	const { authUser } = useAuthContext();
@@ -34,6 +35,7 @@ function App() {
 				<Route path="/changepassword" element={<ChangePasswordPage />} />
 				<Route path='/editprofile/:id' element={authUser ? <PublicProfileEdit /> : <Navigate to={"/login"} />} />
 				<Route path="/Enable2FA" element={authUser ? <TwoFASetup /> : <Navigate to="/login" />} />
+				<Route path="/create-product" element={<CreateProduct />} />
 
 			</Routes>
 			<Toaster />

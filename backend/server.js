@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import productRoutes from './routes/product.routes.js';
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import { app, server } from "./socket/socket.js";
@@ -33,6 +34,10 @@ app.use(cors({
 }));
 app.options('*', cors()); // Handle preflight requests for all routes
 
+// Increase payload size limits
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true })); 
+
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
 
@@ -45,6 +50,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
+app.use('/api/products', productRoutes);
 
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
