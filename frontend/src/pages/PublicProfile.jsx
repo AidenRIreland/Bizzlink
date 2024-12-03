@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const PublicProfile = () => {
     const { id } = useParams();
     const { authUser } = useAuthContext();
+    const navigate = useNavigate();
     const [userProfile, setUserProfile] = useState(null);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -56,6 +58,27 @@ const PublicProfile = () => {
 
         fetchUserProducts();
     }, [id]);
+    const handleDeleteProduct = async (productId) => {
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete product");
+            }
+
+            setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+            toast.success("Product deleted successfully");
+        } catch (error) {
+            console.error(error.message);
+            toast.error("Failed to delete product");
+        }
+    };
+    
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -156,6 +179,15 @@ const PublicProfile = () => {
                                     <p className="text-gray-400 text-sm">
                                         {product.shortDescription}
                                     </p>
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={() => navigate(`/edit-product/${product._id}`)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button className="btn btn-error" onClick={() => handleDeleteProduct(product._id)}>
+                                        Delete
+                                    </button>
                                 </div>
                             ))}
                             {products.length === 1 && (

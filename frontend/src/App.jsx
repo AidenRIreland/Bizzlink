@@ -15,6 +15,7 @@ import ChangePasswordPage from "./pages/ChangePasswordPage";
 import TwoFASetup from "./pages/twofasetup/TwoFASetup";
 import SearchFilterPage from "./pages/SearchFilterPage"; // Import your new page here
 import CreateProduct from "./pages/products/CreateProduct";
+import EditProduct from "./pages/products/EditProduct";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
 				<Route path="/Enable2FA" element={authUser ? <TwoFASetup /> : <Navigate to="/login" />} />
 				<Route path="/searc" element={authUser ? <SearchFilterPage /> : <Navigate to={"/login"} />} />
 				<Route path="/create-product" element={<CreateProduct />} />
+				<Route path="/edit-product/:id" element={<EditProduct />} />
 			</Routes>
 			<Toaster />
 		</div>
