@@ -19,4 +19,19 @@ router.post("/2fa/verify", verifyTwoFactor);
 router.post("/forgot-password", forgotPassword);
 router.post("/2fa/forgot-password", forgotPasswordWith2FA);
 router.post("/reset-password", resetPassword);
+router.post("/check-2fa", async (req, res) => {
+    const { username } = req.body;
+  
+    try {
+      const user = await User.findOne({ username });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      res.status(200).json({ twoFactorEnabled: user.twoFactorEnabled });
+    } catch (error) {
+      console.error("Error checking 2FA status:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
 export default router;

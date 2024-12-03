@@ -1,95 +1,75 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
-  const [is2FA, setIs2FA] = useState(false);
-  const [step, setStep] = useState(1); // Step 1: Email, Step 2: OTP/New Password
+  const [username, setUsername] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [token, setToken] = useState("");
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(null);
+  const [message, setMessage] = useState("");
 
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
+  const handleCheck2FA = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setIs2FA(data.is2FA); // Indicates if user has 2FA enabled
-        setStep(2); // Proceed to next step
-      } else {
-        alert(data.error || "Something went wrong");
-      }
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/check-2fa",
+        { username }
+      );
+      setTwoFactorEnabled(response.data.twoFactorEnabled);
     } catch (error) {
-      console.error("Error sending email:", error);
+      setMessage("Error checking 2FA status");
     }
   };
 
-  const handlePasswordReset = async (e) => {
-    e.preventDefault();
+  const handleResetPassword = async () => {
     try {
-      const endpoint = is2FA
-        ? "http://localhost:5000/api/auth/2fa/forgot-password"
-        : "http://localhost:5000/api/auth/reset-password";
-      const body = is2FA
-        ? { email, otp }
-        : { email, newPassword: e.target.newPassword.value };
+      const payload = {
+        username,
+        newPassword,
+        ...(twoFactorEnabled && { token }), // Include the token only if 2FA is enabled
+      };
 
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/forgot-password",
+        payload
+      );
 
-      const data = await response.json();
-      if (response.ok) {
-        alert("Password reset successful!");
-        // Redirect to login page
-      } else {
-        alert(data.error || "Failed to reset password");
-      }
+      setMessage(response.data.message);
     } catch (error) {
-      console.error("Error resetting password:", error);
+      setMessage(error.response?.data?.error || "Error resetting password");
     }
   };
 
   return (
-    <div className="forgot-password">
+    <div>
       <h1>Forgot Password</h1>
-      {step === 1 ? (
-        <form onSubmit={handleEmailSubmit}>
-          <label>Email Address</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <button type="submit">Send OTP/Reset Link</button>
-        </form>
-      ) : (
-        <form onSubmit={handlePasswordReset}>
-          {is2FA ? (
-            <>
-              <label>Enter OTP</label>
-              <input
-                type="text"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                required
-              />
-            </>
-          ) : (
-            <>
-              <label>Enter New Password</label>
-              <input type="password" name="newPassword" required />
-            </>
+      <input
+        type="text"
+        placeholder="Enter your username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <button onClick={handleCheck2FA}>Check 2FA Status</button>
+
+      {twoFactorEnabled !== null && (
+        <>
+          {twoFactorEnabled && (
+            <input
+              type="text"
+              placeholder="Enter 2FA Code"
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+            />
           )}
-          <button type="submit">Reset Password</button>
-        </form>
+          <input
+            type="password"
+            placeholder="Enter your new password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <button onClick={handleResetPassword}>Reset Password</button>
+        </>
       )}
+      {message && <p>{message}</p>}
     </div>
   );
 };
