@@ -41,6 +41,7 @@ export const updateProduct = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+//? Delete Product
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params; // Get product ID from request parameters
@@ -60,7 +61,6 @@ export const deleteProduct = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
-//? Delete Product
 export const getProducts = async (req, res) => {
     try {
         const products = await Product.find();
