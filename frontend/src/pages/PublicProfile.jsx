@@ -100,7 +100,12 @@ const PublicProfile = () => {
                     </div>
                     <div className="divider"></div>
                     <div className="flex flex-col gap-4">
+                        <div className="flex flex-row justify-between items-center">
                         <h4 className="text-indigo-900">Products</h4>
+                        {authUser?._id === id && (
+                            <Link to="/create-product" className="btn btn-link">Add New Product</Link>
+                        )}
+                        </div>
                         <div className="grid grid-cols-4 grid-flow-col gap-4">
                             <div className="rounded-lg border border-gray-100 shadow-sm flex flex-col gap-4 p-4">
                                 <img
