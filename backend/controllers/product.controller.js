@@ -22,7 +22,8 @@ export const createProduct = async (req, res) => {
 //? Update Product Controller
 export const updateProduct = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.Product._id;
+        
         const { productName, shortDescription, price, productImage } = req.body;
 
         const updatedProduct = await Product.findByIdAndUpdate(
