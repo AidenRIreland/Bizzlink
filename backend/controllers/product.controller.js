@@ -21,27 +21,32 @@ export const createProduct = async (req, res) => {
 };
 //? Update Product Controller
 export const updateProduct = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user._id; // Assuming you set `req.user` after authentication
+
     try {
-        const { id } = req.Product._id;
-        
-        const { productName, shortDescription, price, productImage } = req.body;
-
-        const updatedProduct = await Product.findByIdAndUpdate(
-            id,
-            { productName, shortDescription, price, productImage },
-            { new: true }
-        );
-
-        if (!updatedProduct) {
-            return res.status(404).json({ error: "Product not found" });
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
         }
 
+        // Check if the authenticated user owns the product
+        if (product.userId.toString() !== userId.toString()) {
+            return res.status(403).json({ message: "Forbidden" });
+        }
+
+        // Update the product
+        const updatedProduct = await Product.findByIdAndUpdate(
+            id,
+            { ...req.body },
+            { new: true }
+        );
         res.status(200).json(updatedProduct);
     } catch (error) {
-        console.error("Error updating product:", error.message);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ message: "Failed to update product", error: error.message });
     }
 };
+
 //? Delete Product
 export const deleteProduct = async (req, res) => {
     try {
@@ -81,5 +86,16 @@ export const getUserProducts = async (req, res) => {
     } catch (error) {
         console.error("Error fetching user products:", error.message);
         res.status(500).json({ error: "Internal server error" });
+    }
+};
+export const getProductById = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch product", error: error.message });
     }
 };

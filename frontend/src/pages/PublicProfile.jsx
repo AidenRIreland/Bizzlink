@@ -179,15 +179,19 @@ const PublicProfile = () => {
                                     <p className="text-gray-400 text-sm">
                                         {product.shortDescription}
                                     </p>
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => navigate(`/edit-product/${product._id}`)}
-                                    >
+                                    {authUser?._id === product.userId && (
+                                    <>
+                                    <button className="btn btn-primary"
+                                        onClick={() => navigate(`/edit-product/${product._id}`)}>
                                         Edit
                                     </button>
-                                    <button className="btn btn-error" onClick={() => handleDeleteProduct(product._id)}>
+                                    <button className="btn btn-error"
+                                        onClick={() => handleDeleteProduct(product._id)}>
                                         Delete
                                     </button>
+                                </>
+                            )}
+
                                 </div>
                             ))}
                             {products.length === 1 && (
