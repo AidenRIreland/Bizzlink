@@ -20,21 +20,27 @@ export const createProduct = async (req, res) => {
     }
 };
 //? Update Product Controller
-//TODO:Figure out why edit isnt working
 export const updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { _id: userId } = req.user; // Authenticated user from protectRoute
+    const userId = req.user._id; // Assuming you set `req.user` after authentication
+
     try {
         const product = await Product.findById(id);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
 
-        if (product.userId.toString() !== userId) {
-            return res.status(403).json({ message: "Unauthorized to edit this product" });
+        // Check if the authenticated user owns the product
+        if (product.userId.toString() !== userId.toString()) {
+            return res.status(403).json({ message: "Forbidden" });
         }
 
-        const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
+        // Update the product
+        const updatedProduct = await Product.findByIdAndUpdate(
+            id,
+            { ...req.body },
+            { new: true }
+        );
         res.status(200).json(updatedProduct);
     } catch (error) {
         res.status(500).json({ message: "Failed to update product", error: error.message });

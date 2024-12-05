@@ -39,20 +39,21 @@ const EditProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
+    
         try {
             const response = await fetch(`/api/products/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${authUser.token}`, // Include auth token
                 },
                 body: JSON.stringify({ productName, shortDescription, price, productImage }),
             });
-
+    
             if (!response.ok) {
                 throw new Error("Failed to update product");
             }
-
+    
             toast.success("Product updated successfully");
             navigate(`/publicprofile/${authUser._id}`);
         } catch (error) {
@@ -62,6 +63,7 @@ const EditProduct = () => {
             setLoading(false);
         }
     };
+    
 
     return (
         <div className="flex flex-col gap-4 justify-center">
