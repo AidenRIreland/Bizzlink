@@ -6,6 +6,7 @@ const router = express.Router();
 router.post('/', protectRoute, createProduct);
 router.get('/', getProducts);
 router.get("/user/:userId", getUserProducts);
+//TODO:Figure out why edit isnt working
 router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
 

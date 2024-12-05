@@ -40,6 +40,7 @@ function App() {
 				<Route path="/Enable2FA" element={authUser ? <TwoFASetup /> : <Navigate to="/login" />} />
 				<Route path="/searc" element={authUser ? <SearchFilterPage /> : <Navigate to={"/login"} />} />
 				<Route path="/create-product" element={<CreateProduct />} />
+				//TODO:Figure out why edit isnt working
 				<Route path="/edit-product/:id" element={<EditProduct />} />
 			</Routes>
 			<Toaster />

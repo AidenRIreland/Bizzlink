@@ -20,6 +20,7 @@ export const createProduct = async (req, res) => {
     }
 };
 //? Update Product Controller
+//TODO:Figure out why edit isnt working
 export const updateProduct = async (req, res) => {
     try {
         const { id } = req.Product._id;
