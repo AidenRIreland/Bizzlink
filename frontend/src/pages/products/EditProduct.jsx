@@ -13,6 +13,7 @@ const EditProduct = () => {
     const [productImage, setProductImage] = useState("");
     const [loading, setLoading] = useState(false);
 
+    // Fetch product details
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -34,6 +35,7 @@ const EditProduct = () => {
         fetchProduct();
     }, [id]);
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
