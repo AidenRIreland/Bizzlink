@@ -67,3 +67,6 @@ server.listen(PORT, () => {
     connectToMongoDB();
     console.log(`Server Running on port ${PORT}`);
 });
+app.get('/api/config', (req, res) => {
+    res.json({ backendUrl: process.env.BASE_URL || `http://localhost:${PORT}` });
+});

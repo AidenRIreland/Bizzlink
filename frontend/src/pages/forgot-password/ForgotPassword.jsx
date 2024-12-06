@@ -1,44 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const ForgotPassword = () => {
-  const [username, setUsername] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [token, setToken] = useState("");
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(null);
-  const [message, setMessage] = useState("");
+    const [backendUrl, setBackendUrl] = useState("");
+    const [username, setUsername] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [token, setToken] = useState("");
+    const [twoFactorEnabled, setTwoFactorEnabled] = useState(null);
+    const [message, setMessage] = useState("");
 
-  const handleCheck2FA = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/check-2fa",
-        { username }
-      );
-      setTwoFactorEnabled(response.data.twoFactorEnabled);
-      setMessage("");
-    } catch (error) {
-      setMessage("Error checking 2FA status");
-    }
-  };
+    useEffect(() => {
+        const fetchBackendUrl = async () => {
+            try {
+                const response = await axios.get("/api/config");
+                setBackendUrl(response.data.backendUrl);
+            } catch (error) {
+                console.error("Error fetching backend URL:", error);
+            }
+        };
+        fetchBackendUrl();
+    }, []);
 
-  const handleResetPassword = async () => {
-    try {
-      const payload = {
-        username,
-        newPassword,
-        ...(twoFactorEnabled && { token }), // Include the token only if 2FA is enabled
-      };
+    const handleCheck2FA = async () => {
+        try {
+            const response = await axios.post(`${backendUrl}/api/auth/check-2fa`, { username });
+            setTwoFactorEnabled(response.data.twoFactorEnabled);
+            setMessage("");
+        } catch (error) {
+            setMessage("Error checking 2FA status");
+        }
+    };
 
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/forgot-password",
-        payload
-      );
+    const handleResetPassword = async () => {
+        try {
+            const payload = {
+                username,
+                newPassword,
+                ...(twoFactorEnabled && { token }),
+            };
 
-      setMessage(response.data.message || "Password reset successfully");
-    } catch (error) {
-      setMessage(error.response?.data?.error || "Error resetting password");
-    }
-  };
+            const response = await axios.post(`${backendUrl}/api/auth/forgot-password`, payload);
+            setMessage(response.data.message || "Password reset successfully");
+        } catch (error) {
+            setMessage(error.response?.data?.error || "Error resetting password");
+        }
+    };
 
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
